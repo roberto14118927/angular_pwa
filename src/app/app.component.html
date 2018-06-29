@@ -1,20 +1,73 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<mat-toolbar color="primary" role="heading">
+  <span *ngIf="loggedIn">
+    <img src="{{usuarioActual.photoURL}}" style="margin:.5rem 1rem 0 0;width: 2rem;height:2rem;border-radius:100%;" />
+  </span>
+  <span style="flex:1">
+    Roberto Notas
+  </span>
+  <span class="example-spacer" style="flex: 1 1 auto;"></span>
+  <span *ngIf="loggedIn">
+    <button mat-button color="accent" (click)="logout()">Logout</button>
+  </span>
+</mat-toolbar>
 <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+  <!-- <h1>
+    {{ title }}
+  </h1> -->
   <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div style="text-align:center;margin-top:3rem;" *ngIf="!loggedIn">
+  <small style="color:grey;opacity:.75;font-family:sans-serif;">Debes iniciar sesión para continuar.</small>
+  <br/>
+  <button mat-raised-button style="margin-top: 1rem;width:50vw;max-width:25rem;min-width:15rem;" color="accent" (click)="login()">Iniciar sesión</button>
+  {{message | async | json}}
+</div>
+<mat-accordion *ngIf="loggedIn">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Nota
+      </mat-panel-title>
 
+      <mat-panel-description>
+        Crear o editar una nueva nota
+      </mat-panel-description>
+
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <input matInput placeholder="Titulo de la nota" [(ngModel)]="nota.titulo">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Categoria" [(ngModel)]="nota.categoria">
+        <mat-option *ngFor="let cat of categorias" [value]="cat">
+          {{cat}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Cuerpo de la nota" [(ngModel)]="nota.cuerpo"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" (click)="guardarNota()">Guardar Nota</button>
+  </mat-expansion-panel>
+
+  <mat-card class="nota-lista" *ngFor="let nota of notas" (click)="seleccionarNota(nota)">
+    <h3 matLine>{{nota.titulo}}
+      <div class='icono-eliminar' (click)="eliminarNota(nota)">❌</div>
+    </h3>
+    <p matLine>{{nota.texto}}</p>
+    <small matLine>
+      {{nota.categoria}}
+      <div class='fecha-nota'>{{nota.id | date}}</div>
+    </small>
+    <!-- <mat-card>Simple card</mat-card> -->
+    <!-- <h3 matLine>  </h3>
+        <p matLine>  </p>
+        <small matLine> {{nota.categoria}} - {{nota.id | date}} </small> -->
+  </mat-card>
+
+</mat-accordion>

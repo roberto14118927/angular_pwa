@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    margin: 0;
+    background-color: #eee;
+ }
+
+@media only screen and (max-device-width: 768px){
+    .mat-form-field{
+        width: 100%;
+    }
+}
+@media screen and (min-width:769px){
+    .mat-form-field:first-of-type{
+       margin-right: 2%;
+    }
+    .mat-form-field {
+       width: 49%;
+    }
+ }
+
+.mat-expansion-panel, .nota-lista {
+    margin: .5rem !important;
+ }
+
+ .fecha-nota {
+    font-size: .85rem;
+    opacity: .5;
+    font-style: italic;
+    float: right;
+    font-weight: normal;
+ }
+ .icono-eliminar{
+    float: right;
+    font-weight: normal;
+    opacity:.5;
+    margin-right: .35rem;
+ }
+ .icono-eliminar:active, .icono-eliminar:hover{
+    opacity:1;
+ }
